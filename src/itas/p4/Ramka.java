@@ -35,11 +35,8 @@ public class Ramka extends JFrame {
         centrPanel.add(wejscieText);
         centrPanel.add(wyjcieText);
 
-
-
         add(northPanel, BorderLayout.NORTH);
         add(centrPanel, BorderLayout.CENTER);
-
 
         JPanel southPanel = new JPanel(new BorderLayout());
 
