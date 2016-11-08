@@ -25,7 +25,6 @@ public class Ramka extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
-
         PanelPolnoc northPanel = new PanelPolnoc();
         JPanel centrPanel = new JPanel(new GridLayout(1,2));
 
