@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_obrabiarka" default="compile.module.obrabiarka">
+  <dirname property="module.obrabiarka.basedir" file="${ant.file.module_obrabiarka}"/>
+  
+  <property name="module.jdk.home.obrabiarka" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.obrabiarka" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.obrabiarka" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.obrabiarka" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="obrabiarka.output.dir" value="${module.obrabiarka.basedir}/out/production/obrabiarka"/>
+  <property name="obrabiarka.testoutput.dir" value="${module.obrabiarka.basedir}/out/test/obrabiarka"/>
+  
+  <path id="obrabiarka.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="obrabiarka.module.production.classpath">
+    <path refid="${module.jdk.classpath.obrabiarka}"/>
+  </path>
+  
+  <path id="obrabiarka.runtime.production.module.classpath">
+    <pathelement location="${obrabiarka.output.dir}"/>
+  </path>
+  
+  <path id="obrabiarka.module.classpath">
+    <path refid="${module.jdk.classpath.obrabiarka}"/>
+    <pathelement location="${obrabiarka.output.dir}"/>
+  </path>
+  
+  <path id="obrabiarka.runtime.module.classpath">
+    <pathelement location="${obrabiarka.testoutput.dir}"/>
+    <pathelement location="${obrabiarka.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.obrabiarka">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.obrabiarka">
+    <patternset refid="excluded.from.module.obrabiarka"/>
+  </patternset>
+  
+  <path id="obrabiarka.module.sourcepath">
+    <dirset dir="${module.obrabiarka.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.obrabiarka" depends="compile.module.obrabiarka.production,compile.module.obrabiarka.tests" description="Compile module obrabiarka"/>
+  
+  <target name="compile.module.obrabiarka.production" depends="register.custom.compilers" description="Compile module obrabiarka; production classes">
+    <mkdir dir="${obrabiarka.output.dir}"/>
+    <javac2 destdir="${obrabiarka.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.obrabiarka}/javac">
+      <compilerarg line="${compiler.args.obrabiarka}"/>
+      <bootclasspath refid="obrabiarka.module.bootclasspath"/>
+      <classpath refid="obrabiarka.module.production.classpath"/>
+      <src refid="obrabiarka.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.obrabiarka"/>
+    </javac2>
+    
+    <copy todir="${obrabiarka.output.dir}">
+      <fileset dir="${module.obrabiarka.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.obrabiarka.tests" depends="register.custom.compilers,compile.module.obrabiarka.production" description="compile module obrabiarka; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.obrabiarka" description="cleanup module">
+    <delete dir="${obrabiarka.output.dir}"/>
+    <delete dir="${obrabiarka.testoutput.dir}"/>
+  </target>
+</project>
